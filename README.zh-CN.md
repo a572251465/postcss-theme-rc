@@ -92,3 +92,4 @@ export default defineConfig({
   }
 });
 ```
+- [vite-example](https://github.com/a572251465/operate-drag-lowcode/blob/master/vite.config.ts)

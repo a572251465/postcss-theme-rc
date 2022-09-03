@@ -1,6 +1,6 @@
 {
   "name": "postcss-theme-rc",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "a postcss plugin, mainly used for page switching theme",
   "main": "lib/index.cjs.js",
   "module": "lib/index.esm.js",

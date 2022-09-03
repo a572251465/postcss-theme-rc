@@ -73,6 +73,7 @@ const postcssThemeRc: PluginCreator<Partial<IDefaultOption>> = (opts = {}) => {
       if (!~decl.value.indexOf(opts.fn!)) return;
 
       const matchs = reGroup.exec(decl.value);
+      reGroup.lastIndex = 0;
       if (matchs === null) return;
 
       const mappingValues = getValue(matchs![1]);

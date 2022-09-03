@@ -6,13 +6,13 @@ English | [简体中文](https://github.com/a572251465/postcss-theme-rc/blob/mas
 
 ## 📚 Options
 
-| field         | meaning               |
-| ------------- |-----------------------|
-| fn            | replace function name |
-| colors        | selection all color   |
-| groups        | option grouping       |
-| isImportant   | add highest priority  |
-| themeSelector | selection all theme   |
+| field         | meaning               | default value |
+| ------------- |-----------------------|---------------|
+| fn            | replace function name | `rc`          |
+| colors        | selection all color   | {}            |
+| groups        | option grouping       | {}            |
+| isImportant   | add highest priority  | false         |
+| themeSelector | selection all theme   | []            |
 
 ## 🔨 Usage
 
@@ -51,4 +51,33 @@ $ npm install postcss-theme-rc -D
 $ yarn add postcss-theme-rc -D
 # or
 $ pnpm install postcss-theme-rc -D
+```
+
+## 📦 example
+
+- vite/ vite.config.ts
+```typescript
+import PostcssThemeRc from "postcss-theme-rc";
+
+const PostcssThemeRcPlugin = PostcssThemeRc({
+  colors: {
+    c1: "#f5f5f5",
+    c2: "#000000",
+    c3: "#ccc"
+  },
+  groups: {
+    g1: ["c1", "c2"],
+    g2: ["c1", "c2"],
+    g3: ["c2", "c3"]
+  },
+  themeSelector: ["light", "dark"]
+});
+
+export default defineConfig({
+  css: {
+    postcss: {
+      plugins: [PostcssThemeRcPlugin]
+    }
+  }
+});
 ```

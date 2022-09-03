@@ -1,8 +1,14 @@
-import { IDefaultOption } from "./types";
+export interface IThemeRcOption {
+  fn?: string,
+  colors: Record<string, string>,
+  groups: Record<string, string[]>,
+  isImportant?: boolean,
+  themeSelector: string[]
+}
 import type { PluginCreator } from "postcss";
 
 // 表示默认参数
-const defaultOptions: Partial<IDefaultOption> = {
+const defaultOptions: Partial<IThemeRcOption> = {
   fn: "rc",
   groups: {},
   colors: {},
@@ -16,7 +22,7 @@ const defaultOptions: Partial<IDefaultOption> = {
  * @param opts 传入参数
  */
 const getTheme =
-  (opts: Partial<IDefaultOption>) =>
+  (opts: Partial<IThemeRcOption>) =>
   (key: string): Record<string, string> => {
     // 表示选择标识
     const idenKeys = Object.keys(opts.groups!);
@@ -36,7 +42,7 @@ const getTheme =
     }, {} as Record<string, string>);
   };
 
-const postcssThemeRc: PluginCreator<Partial<IDefaultOption>> = (opts = {}) => {
+const postcssThemeRc: PluginCreator<Partial<IThemeRcOption>> = (opts = {}) => {
   // 设置默认属性
   opts = Object.assign({}, defaultOptions, opts);
 

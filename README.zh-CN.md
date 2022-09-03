@@ -2,7 +2,7 @@
 
 > 一个postcss插件，主要用作主题切换
 
-简体中文 | [English](https://github.com/a572251465/w-hooks/blob/main/README.zh-CN.md)
+简体中文 | [English](https://github.com/a572251465/postcss-theme-rc/blob/master/README.md)
 
 ## 📚 参数
 

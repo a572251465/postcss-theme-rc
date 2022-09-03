@@ -1,16 +1,33 @@
 {
   "name": "postcss-theme-rc",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "1.0.1",
+  "description": "a postcss plugin, mainly used for page switching theme",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.esm.js",
   "scripts": {
     "build": "rollup -c rollup.confg.js",
     "test": "yarn jest",
     "jest": "jest"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "homepage": "https://github.com/a572251465/postcss-theme-rc",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/a572251465/postcss-theme-rc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/a572251465/postcss-theme-rc/issues"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "theme",
+    "css",
+    "assign functon",
+    "transform css"
+  ],
+  "author": "lihh",
+  "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.4.0",
     "eslint": "^8.23.0",

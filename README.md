@@ -2,7 +2,7 @@
 
 > a postcss plugin, mainly used for page switching theme
 
-English | [简体中文](https://github.com/a572251465/w-hooks/blob/main/README.zh-CN.md)
+English | [简体中文](https://github.com/a572251465/postcss-theme-rc/blob/master/README.zh-CN.md)
 
 ## 📚 Options
 

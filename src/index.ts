@@ -6,9 +6,8 @@ const defaultOptions: Partial<IDefaultOption> = {
   fn: "rc",
   groups: {},
   colors: {},
-  useCustomProperties: false,
-  themeSelector: [],
-  nestingPlugin: null
+  isImportant: false,
+  themeSelector: []
 };
 
 /**
@@ -43,16 +42,23 @@ const postcssThemeRc: PluginCreator<Partial<IDefaultOption>> = (opts = {}) => {
 
   // ---------------------- start 临界值 以及合法判断 ------------------------------
   if (!Array.isArray(opts.themeSelector)) {
-    new Error(`params<themeSelector> must be an array`);
+    throw new Error(`params:themeSelector must be an array`);
   }
+
+  if (opts.themeSelector.length <= 0)
+    throw new Error(`params:themeSelector is not empty array`);
+
   // 进行临界值判断
   const values = Object.values(opts.groups!);
+  if (!values.every((item) => Array.isArray(item)))
+    throw new Error(`params:groups element must is a array`);
+
   const fitFlag = values.every(
     (item) => item.length === opts.themeSelector!.length
   );
   if (!fitFlag)
-    new Error(
-      `params<groups> The length of the array in the object must be consistent with the length of the themeselector `
+    throw new Error(
+      `params:groups The length of the array in the object must be consistent with the length of the themeSelector`
     );
   // ---------------------- end 临界值 以及合法判断 ------------------------------
 
@@ -62,12 +68,33 @@ const postcssThemeRc: PluginCreator<Partial<IDefaultOption>> = (opts = {}) => {
 
   return {
     postcssPlugin: "postcss-theme-rc",
-    Declaration(decl) {
+    Declaration(decl, { Rule }) {
       // 如果不存在 表示直接不匹配
-      if (!decl.value.includes(opts.fn!)) return
+      if (!decl.value.includes(opts.fn!)) return;
 
       const matchs = reGroup.exec(decl.value);
-      console.log(getValue(matchs![1]));
+      if (matchs === null) return;
+
+      const mappingValues = getValue(matchs![1]);
+      if (Object.keys(mappingValues).length <= 0) return;
+
+      // 修改原来的属性
+      decl.value = Object.values(mappingValues)[0];
+      const selector = (decl.root().nodes[0] as any).selector;
+
+      for (const [theme, color] of Object.entries(mappingValues)) {
+        // 建立新的规则
+        const newRule = new Rule({
+          selector: `html[data-theme-${opts.fn}='${theme}'] ${selector}`,
+          source: decl.source
+        });
+        // 添加到root节点中
+        decl.root().append(newRule);
+        // 使用新的value值
+        newRule.append(
+          decl.clone({ value: color, important: !!opts.isImportant })
+        );
+      }
     }
   };
 };

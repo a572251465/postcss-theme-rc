@@ -20,7 +20,7 @@ const getTheme =
   (key: string): Record<string, string> => {
     // 表示选择标识
     const idenKeys = Object.keys(opts.groups!);
-    if (!idenKeys.includes(key)) key = idenKeys[0];
+    if (!~idenKeys.indexOf(key)) key = idenKeys[0];
 
     const colorKeyValues = opts.groups![key];
     /***
@@ -70,7 +70,7 @@ const postcssThemeRc: PluginCreator<Partial<IDefaultOption>> = (opts = {}) => {
     postcssPlugin: "postcss-theme-rc",
     Declaration(decl, { Rule }) {
       // 如果不存在 表示直接不匹配
-      if (!decl.value.includes(opts.fn!)) return;
+      if (!~decl.value.indexOf(opts.fn!)) return;
 
       const matchs = reGroup.exec(decl.value);
       if (matchs === null) return;
@@ -80,7 +80,7 @@ const postcssThemeRc: PluginCreator<Partial<IDefaultOption>> = (opts = {}) => {
 
       // 修改原来的属性
       decl.value = Object.values(mappingValues)[0];
-      const selector = (decl.root().nodes[0] as any).selector;
+      const selector = (decl.parent as any).selector;
 
       for (const [theme, color] of Object.entries(mappingValues)) {
         // 建立新的规则

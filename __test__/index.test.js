@@ -22,10 +22,8 @@ const opts = {
 
 it("rc fn selector", function () {
   run(
-    "div a {color: rc(A01); background: red;}",
-    `div a {color: #fff; background: red;}
-html[data-theme-rc='light'] div a {color: #fff;}
-html[data-theme-rc='dark'] div a {color: black;}`,
+    "html, body {background: red;} #app {color: rc(A01); background: red;}",
+    `html, body {background: red;} #app {color: #fff; background: red;} html[data-theme-rc='light'] #app {color: #fff;} html[data-theme-rc='dark'] #app {color: black;}`,
     opts
   );
 });
@@ -35,7 +33,11 @@ it("not rc fn selector", function () {
 });
 
 it("name not is rc", function () {
-  run("div {color: red; background: ra(A01);}", "div {color: red; background: ra(A01);}", opts);
+  run(
+    "div {color: red; background: ra(A01);}",
+    "div {color: red; background: ra(A01);}",
+    opts
+  );
 });
 
 it("themeSelector is empty array", function () {
@@ -115,11 +117,7 @@ it("groups element must is a array", function () {
     expect(result.css).toEqual("div {color: red;}");
   } catch (e) {
     expect(
-      e
-        .toString()
-        .includes(
-          "params:groups element must is a array"
-        )
+      e.toString().includes("params:groups element must is a array")
     ).toBeTruthy();
   }
 });
